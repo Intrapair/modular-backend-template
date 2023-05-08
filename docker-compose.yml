@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  microservice1:
+    build: .
+    ports:
+      - "7001:7001"
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - /usr/app/node_modules
+      - .:/usr/app
+
