@@ -4,6 +4,8 @@ import S3 from 'aws-sdk/clients/s3';
 import path from 'path';
 import { tokenGenerator } from './keyGenerator';
 import { fileURLToPath } from 'url';
+import AppError from './appError';
+import { StatusCodes } from 'http-status-codes';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -17,7 +19,7 @@ const s3 = new S3({
 function fileFilter (req: any, file: any, cb: any) {
     // check if the file is an image
     if(!file.mimetype.startsWith('image')) {
-        return cb(new Error('Only image is allowed'));
+        return cb(new AppError('Only image is allowed', StatusCodes.BAD_REQUEST));
     }
     // To accept the file pass `true`, like so:
     return cb(null, true);
@@ -36,7 +38,7 @@ const storage = multer.diskStorage({
  * Upload file to local storage using multer
  * @returns multer object
  */
-export const uploadFile = multer({ fileFilter, storage, limits: { fileSize: 1024 * 1024 * 1 } });
+export const uploadFile = multer({ fileFilter, storage, limits: { fileSize: 1024 * 1024 * 2 } });
 
 /**
  * Delete file from local storage
