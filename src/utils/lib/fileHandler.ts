@@ -1,6 +1,11 @@
 import fs from 'fs';
+import multer from 'multer';
 import S3 from 'aws-sdk/clients/s3';
 import path from 'path';
+import { tokenGenerator } from './keyGenerator';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const s3 = new S3({
     credentials: {
@@ -8,6 +13,30 @@ const s3 = new S3({
         secretAccessKey: String(process.env.AWS_S3_SECRET_ACCESS_KEY)
     }
 });
+
+function fileFilter (req: any, file: any, cb: any) {
+    // check if the file is an image
+    if(!file.mimetype.startsWith('image')) {
+        return cb(new Error('Only image is allowed'));
+    }
+    // To accept the file pass `true`, like so:
+    return cb(null, true);
+}
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '../../uploads'))
+    },
+    filename: function (req, file, cb) {
+        cb(null, tokenGenerator(8) + path.extname(file.originalname))
+    }
+})
+
+/**
+ * Upload file to local storage using multer
+ * @returns multer object
+ */
+export const uploadFile = multer({ fileFilter, storage, limits: { fileSize: 1024 * 1024 * 1 } });
 
 /**
  * Delete file from local storage
