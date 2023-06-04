@@ -14,7 +14,7 @@ This is a modular backend template powered by Express & Typescript. It is design
 - [Jest](https://jestjs.io) and [Supertest](https://www.npmjs.com/package/supertest) for automated test
 - [BullMQ](https://docs.bullmq.io/) Redis-based distributed queue for Node
 - [AWS S3](https://aws.amazon.com/s3/) File upload to AWS S3 bucket (you can remove if you don't need it)
-- [Formidable]
+- [Multer](https://github.com/expressjs/multer#readme) Node.js middleware for handling multipart/form-data
 
 ## Project File Structure
 - `src` - All source code
