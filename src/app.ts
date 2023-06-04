@@ -3,12 +3,13 @@ import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
 import { errorResponse, successResponse } from './utils/lib/response';
+import { StatusCodes } from 'http-status-codes';
+import AppError from './utils/lib/appError';
 
 const app: Application = express();
 
 // get routes
 import routes from './routes/index.route';
-import { StatusCodes } from 'http-status-codes';
 
 // set global variables
 app.set('trust proxy', true);
@@ -36,10 +37,11 @@ app.all('*', async(req: Request, res: Response, next: NextFunction) => {
 });
 
 // handle global error
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    // log error to logger
+app.use((error: AppError, req: Request, res: Response, next: NextFunction) => {
+    console.log('error handler');
     const message = (process.env.NODE_ENV === 'development') ? error.message : 'Something went wrong';
-    return errorResponse(res, message, StatusCodes.INTERNAL_SERVER_ERROR);
-})
+    const statusCode = (error.name === 'Error') ? StatusCodes.INTERNAL_SERVER_ERROR : (error.statusCode ?? 400);
+    return errorResponse(res, message, statusCode);
+});
 
 export default app;
