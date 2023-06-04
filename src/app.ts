@@ -40,7 +40,7 @@ app.all('*', async(req: Request, res: Response, next: NextFunction) => {
 app.use((error: AppError, req: Request, res: Response, next: NextFunction) => {
     console.log('error handler');
     const message = (process.env.NODE_ENV === 'development') ? error.message : 'Something went wrong';
-    const statusCode = (error.name === 'Error') ? StatusCodes.INTERNAL_SERVER_ERROR : (error.statusCode ?? 400);
+    const statusCode = (error.name === 'Error') ? StatusCodes.INTERNAL_SERVER_ERROR : (error.statusCode ?? StatusCodes.BAD_REQUEST);
     return errorResponse(res, message, statusCode);
 });
 
