@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { successResponse } from "../utils/lib/response";
 import { StatusCodes } from "http-status-codes";
-import tryCatch from "../utils/lib/tryCatch";
+import tryCatch from "../utils/helpers/tryCatch.helper";
 import { IUsers } from "../types/user.types";
 
 /**

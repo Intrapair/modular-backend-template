@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { verifyJwtToken } from "../../utils/helpers/jwt.helper";
 import AppError from "../../utils/lib/appError";
 import { StatusCodes } from "http-status-codes";
-import tryCatch from "../../utils/lib/tryCatch";
+import tryCatch from "../../utils/helpers/tryCatch.helper";
 
 export const userAuth = tryCatch(async(req: Request, res: Response, next: NextFunction) => {
 	const authHeader = req.headers.authorization;
