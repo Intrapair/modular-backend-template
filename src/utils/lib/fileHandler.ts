@@ -1,20 +1,13 @@
 import fs from 'fs';
 import multer from 'multer';
-import S3 from 'aws-sdk/clients/s3';
 import path from 'path';
 import { tokenGenerator } from './keyGenerator';
 import { fileURLToPath } from 'url';
 import AppError from './appError';
 import { StatusCodes } from 'http-status-codes';
+import s3 from '../../config/s3.config';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const s3 = new S3({
-    credentials: {
-        accessKeyId: String(process.env.AWS_S3_ACCESS_KEY_ID),
-        secretAccessKey: String(process.env.AWS_S3_SECRET_ACCESS_KEY)
-    }
-});
 
 function fileFilter (req: any, file: any, cb: any) {
     // check if the file is an image
@@ -63,7 +56,7 @@ export const unlinkFile = (path: string): boolean => {
  * @param file the file name to upload
  * @returns Image object or boolean
  */
-export const uploadFileToAWS = async (uploadPath: string, filename: string) => {
+export const uploadFileToAWS = async (uploadPath: string, filename: string, deleteLocalFile: boolean = true) => {
 	try {
         let localFilePath = path.join(__dirname, '../../uploads', filename);
 		let image = await s3.upload({
@@ -71,8 +64,10 @@ export const uploadFileToAWS = async (uploadPath: string, filename: string) => {
             Key: `${uploadPath}/${filename}`,
             Body: fs.createReadStream(localFilePath)
         }).promise()
+        if(deleteLocalFile) unlinkFile(localFilePath);
         return image;
 	} catch (error) {
+        console.log("error", error);
 		return false;
 	}
 };
