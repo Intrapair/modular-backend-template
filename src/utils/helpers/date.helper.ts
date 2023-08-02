@@ -25,8 +25,8 @@ export default {
      * @returns boolean (true if date has passed otherwise false)
      */
     expiredDate(compareDate: Date, currentDate: Date = new Date()): boolean  {
-        let date1 = currentDate.getDate();
-        let date2 = new Date( compareDate.getDate() ).getDate();
+        let date1 = currentDate.getTime();
+        let date2 = new Date( compareDate.getTime() ).getTime();
         if(date1 > date2) {
             return true;
         } else {
