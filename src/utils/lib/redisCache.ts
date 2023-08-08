@@ -24,21 +24,45 @@ export default class RedisCache {
         this.prefix = opts.prefix || this.prefix;
 		this.defaultDuration = opts.defaultDuration || this.defaultDuration;
 	}
-    // get data from redis
+    
+    /**
+	 * Get data from redis
+	 * @param key string
+	 * @returns data or false
+	 */
     async getFromCache(key: string) {
-        const data: string = await this.redisClient.get(key);
+        const data: string = await this.redisClient.get(this.getKey(key));
         return data ?? false;
     }
-    // save data to redis and set default expiry to 7 days
-    async saveToCache(key: string, data: string, expiry: number = 7) {
-        await this.deleteFromCache(key);
-        await this.redisClient.set(key, data, 'EX', expiry * 24 * 60 * 60);
+
+    /**
+	 * save data to redis and set default expiry to 7 days
+	 * @param key the key to be set
+	 * @param data the data to be saved
+	 * @param expiry the ttl in minutes
+	 */
+    async saveToCache(key: string, data: string, expiry: number = this.defaultDuration) {
+        await this.deleteFromCache(this.getKey(key));
+        await this.redisClient.set(this.getKey(key), data, 'EX', expiry * 24 * 60 * 60);
         return true;
     }
-    // delete data from redis
+
+    /**
+	 * Delete the record created in redis
+	 * @param key string
+	 */
     async deleteFromCache(key: string) {
         await this.redisClient.del(key);
         return true;
     }
+
+    /**
+	 * The redis key to be set
+	 * @param key string
+	 * @returns string
+	 */
+	private getKey(key: string): string {
+		return this.prefix + key;
+	}
 
 }
