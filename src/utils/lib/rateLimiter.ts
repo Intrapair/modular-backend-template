@@ -60,7 +60,7 @@ export default class RateLimiter {
 				return resolve(data);
 			} else {
 				const jsonData = JSON.parse(resp) as IRateLimiterData;
-				console.log('found ==>', jsonData);
+				// console.log('found ==>', jsonData);
 				jsonData.attempts = jsonData.attempts + 1;
 				// check if request has reached threshold limit
 				if(jsonData.attempts === jsonData.maxAttempts) {
@@ -71,7 +71,7 @@ export default class RateLimiter {
 					// console.log('attempt matched ===>', jsonData);
 					await this.set(key, JSON.stringify(jsonData), this.duration);
 				} else if(jsonData.attempts > jsonData.maxAttempts) {
-					console.log('attempt exceeded ===>', jsonData);
+					// console.log('attempt exceeded ===>', jsonData);
 					return reject(jsonData);
 				} else {
 					await this.remove(key);
