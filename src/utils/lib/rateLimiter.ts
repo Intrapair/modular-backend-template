@@ -115,7 +115,7 @@ export default class RateLimiter {
 	 * Delete the record created in redis
 	 * @param key string
 	 */
-	private async remove(key: string) {
+	async remove(key: string) {
 		return await this.redisClient.del(this.getKey(key));
 	}
 }
