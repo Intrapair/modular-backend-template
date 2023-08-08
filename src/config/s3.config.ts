@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config(); // load env variables
+import 'dotenv/config'; // load env variables
 
 import S3 from 'aws-sdk/clients/s3';
 
