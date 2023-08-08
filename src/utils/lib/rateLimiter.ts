@@ -16,27 +16,27 @@ export default class RateLimiter {
 	/**
      * Redis key prefix
      */
-    public prefix: string = '';
+    protected prefix: string = 'LIMIT_THRESHOLD_';
 
 	/**
 	 * The duration (in minutes) for which the login threshold will be active
 	 */
-	public duration: number = 10;
+	protected duration: number = 10;
 
 	/**
 	 * The number of attempts allowed within the duration before applying the login threshold
 	 */
-	private attempts: number = 1;
+	protected attempts: number = 1;
 
 	/**
 	 * The maximum number of login attempts allowed before temporarily disabling the account
 	 */
-	public maxAttempts: number = 5;
+	protected maxAttempts: number = 5;
 
 	/**
 	 * The Redis client instance used for storing and retrieving login attempt data
 	 */
-	public redisClient: any;
+	private redisClient: any;
 
 	constructor(opts: IRateLimiter) {
 		this.prefix = opts.prefix || this.prefix;
@@ -88,7 +88,7 @@ export default class RateLimiter {
 	 * @param key string
 	 * @returns string
 	 */
-	getKey(key: string): string {
+	private getKey(key: string): string {
 		return this.prefix + key;
 	}
 
@@ -98,7 +98,7 @@ export default class RateLimiter {
 	 * @param value the value to be set
 	 * @param expires the ttl in minutes
 	 */
-	async set(key: string, value: string, expires: number) {
+	private async set(key: string, value: string, expires: number) {
 		return await this.redisClient.set(this.getKey(key), value, "EX", expires * 60);
 	}
 
@@ -107,7 +107,7 @@ export default class RateLimiter {
 	 * @param key string
 	 * @returns 
 	 */
-	async get(key: string) {
+	private async get(key: string) {
 		return await this.redisClient.get(this.getKey(key));
 	}
 
@@ -115,7 +115,7 @@ export default class RateLimiter {
 	 * Delete the record created in redis
 	 * @param key string
 	 */
-	async remove(key: string) {
+	private async remove(key: string) {
 		return await this.redisClient.del(this.getKey(key));
 	}
 }
