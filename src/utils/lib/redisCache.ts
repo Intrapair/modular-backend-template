@@ -31,8 +31,17 @@ export default class RedisCache {
 	 * @returns data or false
 	 */
     async getFromCache(key: string) {
-        const data: string = await this.redisClient.get(this.getKey(key));
-        return data ?? false;
+        const data = await this.redisClient.get(this.getKey(key));
+        if(data) {
+            // console.log('cached')
+            try {
+                return JSON.parse(data);
+            } catch (error) {
+                return data;
+            }
+        }
+		// console.log('not cached')
+        return;
     }
 
     /**
@@ -43,6 +52,7 @@ export default class RedisCache {
 	 */
     async saveToCache(key: string, data: string, expiry: number = this.defaultDuration) {
         await this.deleteFromCache(this.getKey(key));
+        if(typeof data === 'object') data = JSON.stringify(data);
         await this.redisClient.set(this.getKey(key), data, 'EX', expiry * 24 * 60 * 60);
         return true;
     }
