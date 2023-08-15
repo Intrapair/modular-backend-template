@@ -81,7 +81,7 @@ export default class RedisCache {
 	 * @returns boolean
 	 */
     async deleteAllFromCacheUsingPrefix(keyPrefix: string) {
-        const keys = await this.redisClient.keys(keyPrefix+'*');
+        const keys = await this.redisClient.keys(this.getKey(keyPrefix)+'*');
         if(keys.length) {
             return this.redisClient.del(keys);
         }
