@@ -51,7 +51,7 @@ export default class RedisCache {
 	 * @param expiry the ttl in minutes
 	 */
     async saveToCache(key: string, data: string, expiry: number = this.defaultDuration) {
-        await this.deleteFromCache(this.getKey(key));
+        await this.deleteFromCache(key);
         if(typeof data === 'object') data = JSON.stringify(data);
         await this.redisClient.set(this.getKey(key), data, 'EX', expiry * 24 * 60 * 60);
         return true;
@@ -62,7 +62,7 @@ export default class RedisCache {
 	 * @param key string
 	 */
     async deleteFromCache(key: string) {
-        await this.redisClient.del(key);
+        await this.redisClient.del(this.getKey(key));
         return true;
     }
 
@@ -74,5 +74,31 @@ export default class RedisCache {
 	private getKey(key: string): string {
 		return this.prefix + key;
 	}
+
+    /**
+	 * Delete all keys with the given prefix
+	 * @param keyPrefix string
+	 * @returns boolean
+	 */
+    async deleteAllFromCacheUsingPrefix(keyPrefix: string) {
+        const keys = await this.redisClient.keys(keyPrefix+'*');
+        if(keys.length) {
+            return this.redisClient.del(keys);
+        }
+        return true;
+    }
+
+    /**
+	 * Delete all from cache
+	 * @param keyPrefix string
+	 * @returns boolean
+	 */
+    async deleteAllFromCache() {
+        const keys = await this.redisClient.keys(this.prefix+'*');
+        if(keys.length) {
+            return this.redisClient.del(keys);
+        }
+        return true;
+    }
 
 }
