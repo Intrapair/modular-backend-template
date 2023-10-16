@@ -18,6 +18,6 @@
     "experimentalSpecifierResolution": "node",
   },
   "exclude": [
-    "**/*.test.ts"
+      "**/*.test.ts"
   ]
 }

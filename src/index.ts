@@ -1,5 +1,6 @@
 import 'dotenv/config'; // load env variables
 import app from './app';
+import logger from './services/logger.service';
 
 try {
     // TODO: authenticate db
@@ -10,7 +11,7 @@ try {
         console.log(`🚀  Modular backend template service is ready at: http://localhost:${port}`);
     });    
 } catch(err) {
-    console.log('Error ==>', err);
+    logger.error(err);
     process.exit();
 }
 
@@ -21,18 +22,12 @@ process.on('SIGINT', async () => {
 
 process.on('unhandledRejection', async (error) => {
     // TODO: close connection to db
-    console.error(`unhandledRejection =>>> ${error}`);
-    if(process.env.NODE_ENV === 'production') {
-        // TODO: log error
-    }
+    logger.fatal(error);
     process.exit(1); //server needs to crash and a process manager will restart it
 })
 
 process.on('uncaughtException', async (error) => {
     // TODO: close connection to db
-    console.error(`uncaughtException =>>> ${error}`);
-    if(process.env.NODE_ENV === 'production') {
-        // TODO: log error
-    }
+    logger.fatal(error);
     process.exit(1); //server needs to crash and a process manager will restart it
-})
+});
