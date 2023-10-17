@@ -1,7 +1,7 @@
 export default {
     /**
      * Add minutes to the current date
-     * @param minutes 
+     * @param minutes
      * @returns The new date object
      */
     addMinutes(minutes: number) {
@@ -11,7 +11,7 @@ export default {
     },
     /**
      * Add days to the current date
-     * @param minutes 
+     * @param minutes
      * @returns The new date object
      */
     addDays(days: number) {
@@ -21,16 +21,16 @@ export default {
     },
     /**
      * Compare the difference between two dates
-     * @param minutes 
+     * @param minutes
      * @returns boolean (true if date has passed otherwise false)
      */
-    expiredDate(compareDate: Date, currentDate: Date = new Date()): boolean  {
+    expiredDate(compareDate: Date, currentDate: Date = new Date()): boolean {
         let date1 = currentDate.getTime();
-        let date2 = new Date( compareDate.getTime() ).getTime();
-        if(date1 > date2) {
+        let date2 = new Date(compareDate.getTime()).getTime();
+        if (date1 > date2) {
             return true;
         } else {
             return false;
         }
-    }
-}
+    },
+};

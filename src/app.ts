@@ -15,26 +15,33 @@ import routes from './routes/index.route';
 // set global variables
 app.set('trust proxy', true);
 // reduce app fingerprint
-app.disable('x-powered-by')
+app.disable('x-powered-by');
 
 // setup middleware
 app.use(compression()); // compress all middleware
-app.use(helmet()); 
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // mount routes
 app.use('/v1', routes);
 
 // index route
 app.get('/', (req: Request, res: Response) => {
-    return successResponse(res, 'Welcome to modular backend template service 🚀');
+    return successResponse(
+        res,
+        'Welcome to modular backend template service 🚀'
+    );
 });
 
 // handle 404 routes
-app.all('*', async(req: Request, res: Response, next: NextFunction) => {
-    return errorResponse(res, `Resource ${req.originalUrl} does not exist`, StatusCodes.NOT_FOUND);
+app.all('*', async (req: Request, res: Response, next: NextFunction) => {
+    return errorResponse(
+        res,
+        `Resource ${req.originalUrl} does not exist`,
+        StatusCodes.NOT_FOUND
+    );
 });
 
 // handle global error

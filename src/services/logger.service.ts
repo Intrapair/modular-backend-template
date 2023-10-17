@@ -3,7 +3,7 @@ import pino from 'pino';
 const logger =
     process.env.NODE_ENV === 'production'
         ? pino(
-              {},
+              { name: process.env.SERVICE_NAME },
               pino.transport({
                   target: '@axiomhq/pino',
                   options: {
@@ -12,6 +12,9 @@ const logger =
                   },
               })
           )
-        : pino({ transport: { target: 'pino-pretty' } });
+        : pino({
+              name: process.env.SERVICE_NAME,
+              transport: { target: 'pino-pretty' },
+          });
 
 export default logger;

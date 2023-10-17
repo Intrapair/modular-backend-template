@@ -15,22 +15,24 @@ This is a modular backend template powered by Express & Typescript. It is design
 - [BullMQ](https://docs.bullmq.io/) Redis-based distributed queue for Node
 - [AWS S3](https://aws.amazon.com/s3/) File upload to AWS S3 bucket (you can remove if you don't need it)
 - [Multer](https://github.com/expressjs/multer#readme) Node.js middleware for handling multipart/form-data
+- [Pino](https://getpino.io/) for logging
+- [Axiom](https://axiom.co/) Transporter for Pino (you can remove if you don't need it and don't forget to update your pino config if you remove this)
 
 ## Project File Structure
 - `src` - All source code
-  - `__tests__` - All unit test files
-  - `config` - All configuration files
-  - `controllers` - All controllers (service layer)
-  - `middlewares` - All middlewares (validation, authentication, authorization, etc)
-  - `migration` - All database migration files
-  - `models` - All database models
-  - `repositories` - All repositories (data access layer)
-  - `routes` - All routes (API endpoints)
-  - `scripts` - All scripts (cron jobs, long or complicated npm scripts)
-  - `services` - All services (interacting with other services or third-party APIs)
-  - `utils` - All utility functions (helper and library functions)
-  - `types` - All custom types (interfaces, enums, etc)
-  - `app.ts` - Main application file
+  - `__tests__` - Unit test files
+  - `config` - Configuration files
+  - `controllers` - Controllers responsible for handling requests and business logic (Use Cases)
+  - `middlewares` - Middlewares for validation, authentication, authorization, etc. (Interface Adapters)
+  - `migration` - Database migration files
+  - `models` - Database models (Entities)
+  - `repositories` - Repositories or data access layer (Entities)
+  - `routes` - API endpoints (Interface Adapters)
+  - `scripts` - Scripts for cron jobs or complex npm scripts
+  - `services` - Services for interacting with other services or third-party APIs
+  - `utils` - Utility functions (helper and library functions)
+  - `types` - Custom types such as interfaces, enums, etc.
+  - `app.ts` - Main application file (Framework and Drivers)
   - `index.ts` - Server file (entry point)
 
 ## Filename Convention
