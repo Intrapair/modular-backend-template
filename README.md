@@ -3,9 +3,9 @@ This is a modular backend template powered by Express & Typescript. It is design
 
 ## Requirements
 - NodeJS runtime
-- NPM or Yarn package manager
+- PNPM or any other package manager (Yarn or NPM)
 - MariaDB or MongoDB or any other database you prefer
-- Redis connection (for BullMQ) or you can remove it if you don't need it
+- Redis connection (for BullMQ & Cache) or you can remove it if you don't need it
 
 ## Features
 - Completely written in [Typescript](https://typescriptlang.org/)
@@ -43,11 +43,11 @@ This is a modular backend template powered by Express & Typescript. It is design
 - Clone the repository - `git clone repo-link`
 - `cd project-folder`
 - You need to have valid MariaDB database and Redis connection
-- Install dependencies - `yarn install`
+- Install dependencies - `pnpm install`
 - Setup environment variable - `cp .env.example .env`
-- Run development server `yarn dev`
-- Run test suite `yarn test`
-- Run production server `yarn start`
+- Run development server `pnpm dev`
+- Run test suite `pnpm test`
+- Run production server `pnpm start`
 
 ## Using docker
 - Clone the repository - `git clone repo-link`
@@ -55,3 +55,7 @@ This is a modular backend template powered by Express & Typescript. It is design
 - Setup environment variable - `cp .env.example .env`
 - Start docker container - `docker-compose up -d`
 - Run test suite `docker exec -it container-id yarn start`
+
+## Format code with Prettier
+- After writing code, you can format it with Prettier using `pnpm format`
+- You can update your prettier config in `.prettierrc` file, the default setting uses 4 spaces for indentation

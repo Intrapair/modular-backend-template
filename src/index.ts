@@ -11,6 +11,9 @@ try {
         console.log(
             `🚀  Modular backend template service is ready at: http://localhost:${port}`
         );
+        logger.info(
+            `🚀  Modular backend template service is ready at: http://localhost:${port}`
+        );
     });
 } catch (err) {
     logger.error(err);
