@@ -90,11 +90,13 @@ export default class RedisCache {
      * @returns boolean
      */
     async deleteAllFromCacheUsingPrefix(keyPrefix: string) {
-        const keys = await this.redisClient.keys(this.getKey(keyPrefix) + '*');
+        const newConnection = this.redisClient.duplicate();
+        const keys = await newConnection.keys(this.getKey(keyPrefix) + '*');
         if (keys.length) {
             return this.redisClient.del(keys);
         }
-        return true;
+        newConnection.disconnect();
+        return false;
     }
 
     /**
@@ -103,10 +105,12 @@ export default class RedisCache {
      * @returns boolean
      */
     async deleteAllFromCache() {
-        const keys = await this.redisClient.keys(this.prefix + '*');
+        const newConnection = this.redisClient.duplicate();
+        const keys = await newConnection.keys(this.prefix + '*');
         if (keys.length) {
             return this.redisClient.del(keys);
         }
-        return true;
+        newConnection.disconnect();
+        return false;
     }
 }
