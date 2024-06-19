@@ -1,6 +1,7 @@
 import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
+import * as mime from 'mime-types';
 import { tokenGenerator } from './keyGenerator';
 import { fileURLToPath } from 'url';
 import AppError from './appError';
@@ -69,11 +70,14 @@ export const uploadFileToAWS = async (
 ) => {
     try {
         let localFilePath = path.join(__dirname, '../../uploads', filename);
+        const fileExtension = path.extname(filename).slice(1);
+        const contentType = mime.contentType(fileExtension) || 'application/octet-stream';
         let image = await s3
             .upload({
                 Bucket: String(process.env.AWS_S3_BUCKET_NAME),
                 Key: `${uploadPath}/${filename}`,
                 Body: fs.createReadStream(localFilePath),
+                ContentType: contentType
             })
             .promise();
         if (deleteLocalFile) unlinkFile(localFilePath);

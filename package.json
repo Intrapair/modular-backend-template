@@ -38,6 +38,7 @@
     "http-status-codes": "^2.2.0",
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.0",
+    "mime-types": "^2.1.35",
     "multer": "^1.4.5-lts.1",
     "pino": "^8.16.0",
     "pino-pretty": "^10.2.3",
