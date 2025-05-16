@@ -2,10 +2,10 @@ import express, { Request, Response, Application, NextFunction } from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
-import { errorResponse, successResponse } from './utils/lib/response';
+import { errorResponse, successResponse } from '@/utils/lib/response';
 import { StatusCodes } from 'http-status-codes';
-import AppError from './utils/lib/appError';
-import logger from './services/logger.service';
+import AppError from '@/utils/lib/appError';
+import logger from '@/services/logger.service';
 
 const app: Application = express();
 
@@ -36,7 +36,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // handle 404 routes
-app.all('*', async (req: Request, res: Response, next: NextFunction) => {
+app.all('/{*any}', async (req: Request, res: Response, next: NextFunction) => {
     return errorResponse(
         res,
         `Resource ${req.originalUrl} does not exist`,

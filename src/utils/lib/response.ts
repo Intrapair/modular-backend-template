@@ -30,8 +30,8 @@ export const successResponse = (
     message: string,
     payload?: any,
     statusCode: number = 200
-): Response<ISuccessResponse> => {
-    return res.status(statusCode).json({
+) => {
+    res.status(statusCode).json({
         success: true,
         message,
         payload: { ...payload },
@@ -49,9 +49,9 @@ export const errorResponse = (
     res: Response,
     message: any,
     statusCode: number
-): Response<IErrorResponse> => {
+) => {
     const reason = getReasonPhrase(statusCode);
-    return res.status(statusCode).json({
+    res.status(statusCode).json({
         success: false,
         error: {
             type: reason,

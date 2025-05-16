@@ -1,6 +1,6 @@
 import 'dotenv/config'; // load env variables
-import app from './app';
-import logger from './services/logger.service';
+import app from '@/app';
+import logger from '@/services/logger.service';
 
 try {
     // TODO: authenticate db
@@ -8,9 +8,6 @@ try {
     const port = Number(process.env.PORT) || 7001;
     // spin off the server
     app.listen(port, () => {
-        console.log(
-            `🚀  Modular backend template service is ready at: http://localhost:${port}`
-        );
         logger.info(
             `🚀  Modular backend template service is ready at: http://localhost:${port}`
         );

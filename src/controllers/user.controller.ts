@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { successResponse } from '../utils/lib/response';
+import { successResponse } from '@/utils/lib/response';
 import { StatusCodes } from 'http-status-codes';
-import tryCatch from '../utils/helpers/tryCatch.helper';
-import { IUsers } from '../types/user.types';
+import tryCatch from '@/utils/helpers/tryCatch.helper';
+import { IUsers } from '@/types/user.types';
 
 /**
  * Get all users based on the query parameters
